@@ -94,7 +94,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: templates/build.yml
+          - template: templates/deploy.yml
             parameters:
               appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
