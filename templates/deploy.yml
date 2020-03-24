@@ -1,31 +1,13 @@
 parameters:
-  stage: 'Dev'
-  environment: 'dev'
-  dependsOn: 'Build'
-  condition: None
-  WebAppName: 'dev'
+  appName: 'dev'
   package: 'Release'
 
-- stage: '${{parameters.stage}}'
-  displayName: 'Deploy to the ${{parameters.environment}} environment'
-  dependsOn: '${{parameters.dependsOn}}'
-  condition: '${{parameters.condition}}'
-  jobs:
-  - deployment: Deploy
-    pool:
-      vmImage: 'ubuntu-16.04'
-    environment: '${{parameters.environment}}'
-    variables:
-    - group: Release
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - download: current
-            artifact: drop
-          - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
-            inputs:
-              azureSubscription: 'Resource Manager - Tailspin - Space Game'
-              appName: '${{parameters.WebAppName}}'
-              package: '${{parameters.package}}'
+steps:
+- download: current
+  artifact: drop
+- task: AzureWebApp@1
+  displayName: 'Azure App Service Deploy: website'
+  inputs:
+    azureSubscription: 'Resource Manager - Tailspin - Space Game'
+    appName: '${{parameters.appName}}'
+    package: '${{parameters.package}}'
